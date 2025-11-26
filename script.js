@@ -2,30 +2,43 @@ const gridContainer = document.getElementById('grid-container');
 const GRID_SIZE = 500; 
 
 function createGrid (size) {
-      
+      gridContainer.innerHTML = ''
     
     for (let i =0; i< size * size; i++) {
         const square = document.createElement ('div');
       
         square.className = 'grid-square';
+        square.dataset.darkness = 0; 
             const squareSize = GRID_SIZE / size;
     square.style.width = `${squareSize}px`;
     square.style.height = `${squareSize}px`;
 
         square.addEventListener('mouseover', () =>{
-            function random_bg_color() {
-    var x = Math.floor(Math.random() * 256);
-    var y = Math.floor(Math.random() * 256);
-    var z = Math.floor(Math.random() * 256);
-    var bgColor = "rgb(" + x + "," + y + "," + z + ")";
+        
+
+ let darkness = Number(square.dataset.darkness) || 0; // read
+
+  if (darkness < 10) {
+    darkness++;                                      // update
+    square.dataset.darkness = darkness;              // save
+  }
+
+ if (darkness ===1){
+                
+    const x = Math.floor(Math.random() * 256);
+    const y = Math.floor(Math.random() * 256);
+    const z = Math.floor(Math.random() * 256);
+    const bgColor = "rgb(" + x + "," + y + "," + z + ")";
  console.log(bgColor);
   
     square.style.background = bgColor;
     }
+     const opacity = darkness / 10;
+      square.style.opacity = opacity;
 
-random_bg_color();
-           
-        })
+      console.log('darkness:', darkness, 'opacity:', opacity);
+    });
+
 
 
         gridContainer.appendChild(square)
@@ -47,7 +60,7 @@ if (isNaN(size) || size <= 0 || size > 100) {
 }
 
 
-gridContainer.innerHTML = ''
+
 createGrid(size)
 
 })
